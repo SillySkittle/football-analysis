@@ -1,0 +1,6 @@
+output_videos/cropped_image.jpg
+output_videos/output_video_24fps.avi
+output_videos/output_video_interpolate_ball_positions.avi
+output_videos/output_video_raw.avi
+output_videos/output_video_teams_assigned.avi
+models/best.pt
