@@ -7,11 +7,24 @@ sys.path.append('../')
 from utils.bbox_utils import get_center_of_bbox, get_bbox_width
 import cv2
 import numpy as np
+import pandas as pd
 
 class Tracker:
     def __init__(self, model_path):
         self.model = YOLO(model_path) 
         self.tracker = sv.ByteTrack()
+
+    def interpolate_ball_positions(self,ball_positions):
+        ball_positions = [x.get(1,{}).get('bbox',[]) for x in ball_positions]
+        df_ball_positions = pd.DataFrame(ball_positions,columns=['x1','y1','x2','y2'])
+
+        # Interpolate missing values
+        df_ball_positions = df_ball_positions.interpolate()
+        df_ball_positions = df_ball_positions.bfill()
+
+        ball_positions = [{1: {"bbox":x}} for x in df_ball_positions.to_numpy().tolist()]
+
+        return ball_positions
 
     def detect_frames(self, frames):
         batch_size=20 
@@ -153,8 +166,8 @@ class Tracker:
 
             # Draw Players
             for track_id, player in player_dict.items():
-                #color = player.get("team_color",(0,0,255))
-                frame = self.draw_ellipse(frame, player["bbox"],(0,0,225), track_id)
+                color = player.get("team_color",(0,0,255))
+                frame = self.draw_ellipse(frame, player["bbox"],color, track_id)
 
             # Draw Referee
             for _, referee in referee_dict.items():
@@ -164,6 +177,6 @@ class Tracker:
             for track_id, ball in ball_dict.items():
                 frame = self.draw_traingle(frame, ball["bbox"],(0,255,0))
 
-                output_video_frames.append(frame)
+            output_video_frames.append(frame)
 
         return output_video_frames
