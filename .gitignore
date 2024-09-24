@@ -4,3 +4,5 @@ output_videos/output_video_interpolate_ball_positions.avi
 output_videos/output_video_raw.avi
 output_videos/output_video_teams_assigned.avi
 models/best.pt
+output_videos/output_video_player_with_ball.avi
+output_videos/output_video_team_ball_control.avi
