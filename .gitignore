@@ -8,3 +8,5 @@ output_videos/output_video_player_with_ball.avi
 output_videos/output_video_team_ball_control.avi
 output_videos/output_video_camera_movement_and_adjust_track.avi
 output_videos/output_video_perspective_transform.avi
+output_videos/box_check.mp4
+output_videos/output_video_player_speed_and_distance.avi

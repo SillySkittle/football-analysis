@@ -4,14 +4,14 @@ import cv2
 class ViewTransformer():
     def __init__(self):
         court_width = 68
-        court_length = 23.32
+        court_length = 29.16
 
         self.pixel_vertices = np.array([[110, 1035], 
-                               [265, 275], 
-                               [910, 260], 
-                               [1640, 915]])
+                           [260, 275], 
+                           [1055, 253], 
+                           [1955, 897]])
         
-        self.target_vertices = np.array([
+        self.target_vertices = np.array([ 
             [0,court_width],
             [0, 0],
             [court_length, 0],
@@ -30,8 +30,8 @@ class ViewTransformer():
             return None
 
         reshaped_point = point.reshape(-1,1,2).astype(np.float32)
-        tranform_point = cv2.perspectiveTransform(reshaped_point,self.persepctive_transformer)
-        return tranform_point.reshape(-1,2)
+        transform_point = cv2.perspectiveTransform(reshaped_point,self.persepctive_transformer)
+        return transform_point.reshape(-1,2)
 
     def add_transformed_position_to_tracks(self,tracks):
         for object, object_tracks in tracks.items():
@@ -39,7 +39,7 @@ class ViewTransformer():
                 for track_id, track_info in track.items():
                     position = track_info['position_adjusted']
                     position = np.array(position)
-                    position_trasnformed = self.transform_point(position)
-                    if position_trasnformed is not None:
-                        position_trasnformed = position_trasnformed.squeeze().tolist()
-                    tracks[object][frame_num][track_id]['position_transformed'] = position_trasnformed
+                    position_transformed = self.transform_point(position)
+                    if position_transformed is not None:
+                        position_transformed = position_transformed.squeeze().tolist()
+                    tracks[object][frame_num][track_id]['position_transformed'] = position_transformed

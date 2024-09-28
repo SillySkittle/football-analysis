@@ -93,9 +93,12 @@ def main():
     ## Draw Camera movement
     output_video_frames = camera_movement_estimator.draw_camera_movement(output_video_frames,camera_movement_per_frame)
 
+    ## Draw Speed and Distance
+    speed_and_distance_estimator.draw_speed_and_distance(output_video_frames,tracks)
 
-     # Save video
-    save_video(output_video_frames, 'output_videos/output_video_perspective_transform.avi')
+    # Save video
+    save_video(output_video_frames, 'output_videos/output_video_player_speed_and_distance.avi')
+
 
 if __name__ == '__main__':
 
