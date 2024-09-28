@@ -5,6 +5,8 @@ from team_assigner import TeamAssigner
 import os
 from player_ball_assigner import PlayerBallAssigner
 import numpy as np
+from camera_movement_estimator import CameraMovementEstimator
+
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
@@ -28,6 +30,18 @@ def main():
     #     #save the cropped image
     #     cv2.imwrite(f'outpot_videos/cropped_img.jpg', cropped_image)
     #     break
+
+
+    # Get object positions 
+    tracker.add_position_to_tracks(tracks)
+
+     # camera movement estimator
+    camera_movement_estimator = CameraMovementEstimator(video_frames[0])
+    camera_movement_per_frame = camera_movement_estimator.get_camera_movement(video_frames,
+                                                                                read_from_stub=True,
+                                                                                stub_path='stubs/camera_movement_stub.pkl')
+    camera_movement_estimator.add_adjust_positions_to_tracks(tracks,camera_movement_per_frame)
+
 
     # Interpolate Ball Positions
     tracks["ball"] = tracker.interpolate_ball_positions(tracks["ball"])
@@ -66,8 +80,12 @@ def main():
     ## Draw object Tracks
     output_video_frames = tracker.draw_annotations(video_frames, tracks, team_ball_control)
 
+    ## Draw Camera movement
+    output_video_frames = camera_movement_estimator.draw_camera_movement(output_video_frames,camera_movement_per_frame)
+
+
      # Save video
-    save_video(output_video_frames, 'output_videos/output_video_team_ball_control.avi')
+    save_video(output_video_frames, 'output_videos/output_video_camera_movement_and_adjust_track.avi')
 
 if __name__ == '__main__':
 
