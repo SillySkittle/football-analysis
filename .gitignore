@@ -6,3 +6,4 @@ output_videos/output_video_teams_assigned.avi
 models/best.pt
 output_videos/output_video_player_with_ball.avi
 output_videos/output_video_team_ball_control.avi
+output_videos/output_video_camera_movement_and_adjust_track.avi
