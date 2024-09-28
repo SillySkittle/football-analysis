@@ -6,6 +6,8 @@ import os
 from player_ball_assigner import PlayerBallAssigner
 import numpy as np
 from camera_movement_estimator import CameraMovementEstimator
+from view_transformer import ViewTransformer
+from speed_and_distance_estimator import SpeedAndDistance_Estimator
 
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
@@ -42,9 +44,17 @@ def main():
                                                                                 stub_path='stubs/camera_movement_stub.pkl')
     camera_movement_estimator.add_adjust_positions_to_tracks(tracks,camera_movement_per_frame)
 
+    # View Trasnformer
+    view_transformer = ViewTransformer()
+    view_transformer.add_transformed_position_to_tracks(tracks)
 
     # Interpolate Ball Positions
     tracks["ball"] = tracker.interpolate_ball_positions(tracks["ball"])
+
+    # Speed and distance estimator
+    speed_and_distance_estimator = SpeedAndDistance_Estimator()
+    speed_and_distance_estimator.add_speed_and_distance_to_tracks(tracks)
+
 
     # Assign Player Teams
     team_assigner = TeamAssigner()
@@ -85,7 +95,7 @@ def main():
 
 
      # Save video
-    save_video(output_video_frames, 'output_videos/output_video_camera_movement_and_adjust_track.avi')
+    save_video(output_video_frames, 'output_videos/output_video_perspective_transform.avi')
 
 if __name__ == '__main__':
 
