@@ -4,8 +4,8 @@ import numpy as np
 # Define the polygon points
 polygon_points = np.array([[110, 1035], 
                            [260, 275], 
-                           [1055, 253], 
-                           [1955, 897]], np.int32)
+                           [1205, 248], 
+                           [2275, 873]], np.int32)
 
 # Load the video
 video_path = 'C:\\Users\\chirag_rana\\Documents\\GitHub\\football-analysis\\input_videos\\08fd33_4.mp4'  # Replace with your video path
